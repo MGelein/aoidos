@@ -1,0 +1,33 @@
+{
+  "name": "aoidos",
+  "version": "1.0.0",
+  "description": "A Text Adventure Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MGelein/aoidos.git"
+  },
+  "keywords": [
+    "aoidos",
+    "text",
+    "adventure",
+    "game"
+  ],
+  "author": "Mees Gelein",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MGelein/aoidos/issues"
+  },
+  "homepage": "https://github.com/MGelein/aoidos#readme",
+  "devDependencies": {
+    "@types/jquery": "^3.2.12",
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^3.0.1",
+    "grunt-exec": "^3.0.0",
+    "jquery": "^3.2.1"
+  }
+}

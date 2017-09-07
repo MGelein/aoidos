@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outDir": "js/",
+        "lib" : ["es2015", "es2015.iterable", "dom"]
+    },
+    "include": [
+        "ts/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+}

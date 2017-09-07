@@ -1,0 +1,17 @@
+{
+    "name": "Main Menu",
+    "text":[
+        "",
+        "<h2>The <span class='orange'>Tiger</span> Of The Empress</h2>",
+        "",
+        "<h6 class='grey'>A Steampunk Detective</h6>",
+        "",
+        "Welcome to the main menu!",
+        "",
+        "<span class='topic' topic-id='newgame'>1. New Game</span>",
+        "<span class='topic' topic-id='loadgame'>2. Load Game</span>",
+        "<span class='topic' topic-id='settings'>3. Settings</span>",
+        "",
+        "What do you want to do?"
+    ]
+}

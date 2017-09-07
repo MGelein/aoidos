@@ -1,0 +1,50 @@
+{
+	"name": "Person",
+	"attitude": 100,
+	"health": 100,
+	"mana": 100,
+	"conversation": {
+		"greeting": [
+			{"value": "Hello there, I would like to inform you of the <span class='topic'>bandit raid</span> that happened last week.",
+			"condition": ["QUEST_STAGE(111, 0)", "IF ATTITUDE NOT LOWER THAN 10"]},
+			
+			{"value": "I don't want to talk to you!",
+			"condition": ["IF ATTITUDE LOWER THAN 10"],
+			"trigger": ["EXIT_CONVERSATION"]},
+			
+			{"value": "Hi %PLAYER%, how are you getting on with those bandits?",
+			"condition": ["QUEST_STAGE(111, 1)"]},
+			
+			{"value": "There we have our hero who killed all the bandits for us! What can we do for you?",
+			"condition": ["QUEST_STAGE(111, 99"]},
+			
+			{"value": "Ah, you're back. Do you want to <span class='topic'>help</span> us with our <span class='topic'>bandit</span> problem yet?",
+			"condition": ["QUEST_STAGE(111, -1"]}
+		],			
+		"bandit raid":[
+			{"value": "Yes, it was awful, imagine the blood. Have you ever been raided?(Y/N)?",
+			"condition": ["QUEST_STAGE(111, 0)"],
+			"Y": [{"value": "You did? Then you must understand us. Do you want to <span class='topic'>help</span> us?"}],
+			"N": [{"value": "Then you are one lucky %GENDER%! Do you want to <span class='topic'>help</span> us?"}]},
+			
+			{"value": "That awful raid. Luckily you're here to help us!",
+			"condition": ["QUEST_STAGE(111, 1)"]},
+			
+			{"value": "Ah yes, you finished of those bandits nicely! Many thanks for that! You have our eternal gratitude",
+			"condition": ["QUEST_STAGE(111, 99"]},
+			
+			{"value": "We've talked about this before. The raid was horrible. Can you give us some <span class='topic'>help</span>?"}
+		],
+		"help": [
+			{"value": "We know where the bandits are hanging out. If you want to go there and wipe them out for us you would be rewarded! Can you help us? (Y/N)?",
+			"condition": ["QUEST_STAGE(111, 0)"],
+			"Y": [{"value": "That is amazing!", "trigger": ["QUEST_STAGE(111, 1)", "EXIT_CONVERSATION"]}],
+			"N": [{"value": "That's a shame. Do come back if you change your mind!", "trigger": ["EXIT_CONVERSATION", "QUEST_STAGE(111, -1)"]}]},
+			
+			{"value": "Do you want to help us? (Y/N)?",
+			"condition": ["QUEST_STAGE(111, -1)"],
+			"Y": [{"value": "That is amazing!", "trigger": ["QUEST_STAGE(111, 1)", "EXIT_CONVERSATION"]}],
+			"N": [{"value": "Why did you even bother me about it then?", "trigger": ["EXIT_CONVERSATION", "LOWER ATTITUDE 1"]}]}
+		]
+	}
+}
