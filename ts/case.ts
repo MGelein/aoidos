@@ -3,9 +3,9 @@ class Case{
     /**The lines that are tied to this case. They will be randomly shown */
     public lines:string[];
     /**The conditions that need to be true if you want this case to trigger */
-    public conditions:string[];
+    public conditions:Condition[];
     /**The triggers that fire in case all of the conditions apply */
-    public triggers:string[];
+    public triggers:Trigger[];
     
     /**
      * Constructs a new Case from the JSON file data
@@ -14,15 +14,23 @@ class Case{
     constructor(data:any){
         //Copy the data
         this.lines = data.lines;
-        this.conditions = data.conditions;
-        this.triggers = data.triggers;
+        this.conditions = Condition.parseList(data.conditions);
+        this.triggers = Trigger.parseList(data.triggers);
     }
 
     /**
      * Tests if all the conditions apply
      */
     test(){
-
+        if(this.conditions.length > 0){
+            for(var i = 0; i < this.conditions.length; i++){
+                //If a condition is not met, immediately abort!
+                if(!this.conditions[i].test()) return false;
+            }
+        }
+        //If there are no conditions, or they all returned true
+        //It means we have met all conditions, so this case is true
+        return true;
     }
 
     /**
@@ -30,7 +38,12 @@ class Case{
      * triggers its triggers
      */
     trigger(){
-        
+        //trigger all triggers
+        for(var i = 0; i < this.triggers.length; i++){
+            this.triggers[i].trigger();
+        }
+        //output one of the random lines (or the only one if there is only one)
+        aoidos.terminal.printlns(this.lines[Math.floor(Math.random()*this.lines.length)]);
     }
 
     /**

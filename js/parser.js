@@ -12,6 +12,10 @@ var Parser = (function () {
                 tWords.push(words[i]);
         }
         words = tWords;
+        var actions = Room.current.findActions(words[0]);
+        if (actions.length == 1) {
+            actions[0].run();
+        }
     };
     Parser.meaningless = ['a', 'the', 'to', 'on'];
     return Parser;

@@ -29,6 +29,21 @@ class Obj{
     }
 
     /**
+     * Test to see if this object has a topic or action or alias that matches
+     * the provided parameter
+     * @param act the topic or action to test against
+     */
+    findAction(act:string):Action[]{
+        var actions:Action[] = [];
+        for(var i = 0; i < this.actions.length; i++){
+            //If we found a matching object
+            if(this.actions[i].matches(act)) actions.push(this.actions[i]);
+        }
+        //Return the matching actions:
+        return actions;
+    }
+
+    /**
      * Populates this object with the data obtained from the file
      * @param data the data read from file
      */

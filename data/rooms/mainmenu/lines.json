@@ -17,5 +17,9 @@
 
     "inspect_newgame":[
         "Hmmm... interesting... a new game..."
+    ],
+
+    "inspect_loadgame":[
+        "Hmmm... interesting... a load game..."
     ]
 }

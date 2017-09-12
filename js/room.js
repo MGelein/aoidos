@@ -47,6 +47,16 @@ var Room = (function () {
         });
         Room.loaded.push(this);
     };
+    Room.prototype.findActions = function (act) {
+        var actions = [];
+        for (var i = 0; i < this.objects.length; i++) {
+            var matches = this.objects[i].findAction(act);
+            if (matches !== undefined) {
+                actions = actions.concat(matches);
+            }
+        }
+        return actions;
+    };
     Room.prototype.unload = function () {
         aoidos.terminal.cls();
     };

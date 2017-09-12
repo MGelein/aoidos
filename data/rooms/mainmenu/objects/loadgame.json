@@ -1,27 +1,27 @@
 {
-    "name": "New Game",
-    "alias": ["new", "newgame", "new game"],
+    "name": "Load Game",
+    "alias": ["load", "loadgame", "load game"],
     "actions":[
         {
             "id": "inspect",
             "alias": ["inspect", "look"],
             "cases":[
                 {
-                    "lines": ["[inspect_newgame]"],
+                    "lines": ["[inspect_loadgame]"],
                     "conditions": [],
                     "triggers": ["I(5, 100)", "R(mainmenu)"]
                 }
             ]
         },
         {
-            "id": "new.game",
-            "alias": ["new", "new game", "newgame", "nw game"],
+            "id": "load.game",
+            "alias": ["load", "load game", "loadgame", "ld game"],
             "cases":[
                 {
-                    "lines": ["Starting a new game..."],
+                    "lines": ["Loading a game..."],
                     "conditions": [],
                     "triggers": ["R(firstscene)"]
-                }   
+                }
             ]
         }
     ]

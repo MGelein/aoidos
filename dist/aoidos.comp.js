@@ -4,6 +4,22 @@ var Action = (function () {
         this.alias = data.alias;
         this.cases = Case.parseList(data.cases);
     }
+    Action.prototype.matches = function (act) {
+        if (this.id == act)
+            return true;
+        if (this.alias.indexOf(act) != -1)
+            return true;
+        return false;
+    };
+    Action.prototype.run = function () {
+        for (var i = 0; i < this.cases.length; i++) {
+            if (this.cases[i].test()) {
+                console.log("Run Action: " + this.id);
+                this.cases[i].trigger();
+                return;
+            }
+        }
+    };
     Action.parseList = function (data) {
         var actions = [];
         for (var i = 0; i < data.length; i++) {
@@ -34,12 +50,23 @@ var Aoidos = (function () {
 ;var Case = (function () {
     function Case(data) {
         this.lines = data.lines;
-        this.conditions = data.conditions;
-        this.triggers = data.triggers;
+        this.conditions = Condition.parseList(data.conditions);
+        this.triggers = Trigger.parseList(data.triggers);
     }
     Case.prototype.test = function () {
+        if (this.conditions.length > 0) {
+            for (var i = 0; i < this.conditions.length; i++) {
+                if (!this.conditions[i].test())
+                    return false;
+            }
+        }
+        return true;
     };
     Case.prototype.trigger = function () {
+        for (var i = 0; i < this.triggers.length; i++) {
+            this.triggers[i].trigger();
+        }
+        aoidos.terminal.printlns(this.lines[Math.floor(Math.random() * this.lines.length)]);
     };
     Case.parseList = function (data) {
         var cases = [];
@@ -49,6 +76,22 @@ var Aoidos = (function () {
         return cases;
     };
     return Case;
+}());
+;var Condition = (function () {
+    function Condition(condition) {
+        this.stringDesc = condition;
+    }
+    Condition.prototype.test = function () {
+        return true;
+    };
+    Condition.parseList = function (data) {
+        var conditions = [];
+        for (var i = 0; i < data.length; i++) {
+            conditions.push(new Condition(data[i]));
+        }
+        return conditions;
+    };
+    return Condition;
 }());
 ;var DataLoader = (function () {
     function DataLoader(dataFolder) {
@@ -87,6 +130,14 @@ var Aoidos = (function () {
         this.actions = [];
         this.id = id;
     }
+    Obj.prototype.findAction = function (act) {
+        var actions = [];
+        for (var i = 0; i < this.actions.length; i++) {
+            if (this.actions[i].matches(act))
+                actions.push(this.actions[i]);
+        }
+        return actions;
+    };
     Obj.prototype.parseData = function (data) {
         this.name = data.name;
         this.alias = data.alias;
@@ -120,6 +171,10 @@ var Aoidos = (function () {
                 tWords.push(words[i]);
         }
         words = tWords;
+        var actions = Room.current.findActions(words[0]);
+        if (actions.length == 1) {
+            actions[0].run();
+        }
     };
     Parser.meaningless = ['a', 'the', 'to', 'on'];
     return Parser;
@@ -172,6 +227,16 @@ var Aoidos = (function () {
             self.enter();
         });
         Room.loaded.push(this);
+    };
+    Room.prototype.findActions = function (act) {
+        var actions = [];
+        for (var i = 0; i < this.objects.length; i++) {
+            var matches = this.objects[i].findAction(act);
+            if (matches !== undefined) {
+                actions = actions.concat(matches);
+            }
+        }
+        return actions;
     };
     Room.prototype.unload = function () {
         aoidos.terminal.cls();
@@ -285,4 +350,20 @@ var Aoidos = (function () {
         });
     };
     return Terminal;
+}());
+;var Trigger = (function () {
+    function Trigger(trigger) {
+        this.stringDesc = trigger;
+    }
+    Trigger.prototype.trigger = function () {
+        console.log("- Trigger: " + this.stringDesc);
+    };
+    Trigger.parseList = function (data) {
+        var triggers = [];
+        for (var i = 0; i < data.length; i++) {
+            triggers.push(new Trigger(data[i]));
+        }
+        return triggers;
+    };
+    return Trigger;
 }());

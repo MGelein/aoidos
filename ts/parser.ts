@@ -22,6 +22,14 @@ class Parser{
             if(Parser.meaningless.indexOf(words[i]) == -1) tWords.push(words[i]);
         }
         //now set the words list back to the cleaned list
-        words = tWords;       
+        words = tWords;
+        
+        //the first word always has to be a topic or action-id. If there is only one
+        //match, we trigger that
+        var actions:Action[] = Room.current.findActions(words[0]);
+        //If there is only one associated action, fire it
+        if(actions.length == 1){
+           actions[0].run();
+        }
     }
 }

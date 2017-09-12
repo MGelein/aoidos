@@ -102,6 +102,26 @@ class Room{
     }
 
     /**
+     * Returns a list with objects and npcs that have
+     * the topic we want to talk about
+     * @param act 
+     */
+    findActions(act:string):Action[]{
+        //Generate a new holder object for matching actions
+        var actions:Action[] = [];
+
+        //go through all the objects to find a match
+        for(var i = 0; i < this.objects.length; i++){
+            var matches:Action[] = this.objects[i].findAction(act);
+            if(matches !== undefined){
+                actions = actions.concat(matches);
+            }
+        }
+        //Finally return the matches found
+        return actions;
+    }
+
+    /**
      * Called to clean up before a new room is entered. Makes
      * sure no remains from other rooms are left.
      */

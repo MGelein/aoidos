@@ -24,6 +24,34 @@ class Action{
     }
 
     /**
+     * Tests to see if this action or its aliases match againts the
+     * provided command that was entered
+     * @param act the string to test against
+     */
+    matches(act:string):boolean{
+        //If the command equals the id of this action
+        if(this.id == act) return true;
+        //If the command equals any of the aliases of this action
+        if(this.alias.indexOf(act) != -1) return true;
+        //No matches, return false
+        return false;
+    }
+
+    /**
+     * Looks through all the cases and finds the first one to fire
+     */
+    run(){
+        for(var i = 0; i < this.cases.length; i++){
+            if(this.cases[i].test()){
+                //we found a matching case. Trigger it and stop looking`
+                console.log("Run Action: " + this.id);
+                this.cases[i].trigger();
+                return;
+            }
+        }
+    }
+
+    /**
      * Returns a list of actions based on the JSON file
      * @param data the data from the JSON file
      */
