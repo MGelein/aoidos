@@ -1,4 +1,4 @@
-class Obj{
+class Obj implements ActionSearchable{
     /**All objects that have been loaded */
     public static loaded:Obj[] = [];
 
@@ -29,12 +29,17 @@ class Obj{
     }
 
     /**
-     * Test to see if this object has a topic or action or alias that matches
+     * Test to see if this object has a action or alias that matches
      * the provided parameter
      * @param act the topic or action to test against
      */
     findAction(act:string):Action[]{
         var actions:Action[] = [];
+        //If the name or the alias is similar to the command, return all our actions
+        if(this.id == act) return this.actions;
+        if(this.alias.indexOf(act) != -1) return this.actions;
+
+        //Else, at least check the actions of this object
         for(var i = 0; i < this.actions.length; i++){
             //If we found a matching object
             if(this.actions[i].matches(act)) actions.push(this.actions[i]);

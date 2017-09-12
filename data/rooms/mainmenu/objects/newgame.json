@@ -1,6 +1,6 @@
 {
     "name": "New Game",
-    "alias": ["new", "newgame", "new game"],
+    "alias": ["newgame"],
     "actions":[
         {
             "id": "inspect",

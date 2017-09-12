@@ -114,7 +114,7 @@ var Aoidos = (function () {
     };
     return DataLoader;
 }());
-;var Lines = (function () {
+;;var Lines = (function () {
     function Lines(data) {
         this.lines = data;
     }
@@ -132,6 +132,10 @@ var Aoidos = (function () {
     }
     Obj.prototype.findAction = function (act) {
         var actions = [];
+        if (this.id == act)
+            return this.actions;
+        if (this.alias.indexOf(act) != -1)
+            return this.actions;
         for (var i = 0; i < this.actions.length; i++) {
             if (this.actions[i].matches(act))
                 actions.push(this.actions[i]);
@@ -171,9 +175,31 @@ var Aoidos = (function () {
                 tWords.push(words[i]);
         }
         words = tWords;
-        var actions = Room.current.findActions(words[0]);
-        if (actions.length == 1) {
-            actions[0].run();
+        var actions = [];
+        for (var i = 0; i < words.length; i++) {
+            actions.push(Room.current.findActions(words[i]));
+        }
+        var temp;
+        for (var i = 1; i < actions.length; i++) {
+            if (actions[i - 1].length == 1) {
+                actions[i - 1][0].run();
+                break;
+            }
+            temp = [];
+            if (actions[i].length == 0) {
+                actions[i] = actions[i - 1];
+            }
+            else {
+                for (var j = 0; j < actions[i].length; j++) {
+                    if (actions[i - 1].indexOf(actions[i][j]) != -1) {
+                        temp.push(actions[i][j]);
+                    }
+                }
+                actions[i] = temp;
+            }
+        }
+        if (actions[actions.length - 1].length == 1) {
+            actions[actions.length - 1][0].run();
         }
     };
     Parser.meaningless = ['a', 'the', 'to', 'on'];

@@ -10,6 +10,8 @@ class Action{
     public alias:string[];
     /**The cases for this action. */
     public cases:Case[];
+    /**The parent of this action*/
+    public parent:ActionSearchable;
 
 
     /**

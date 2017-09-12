@@ -24,12 +24,37 @@ class Parser{
         //now set the words list back to the cleaned list
         words = tWords;
         
-        //the first word always has to be a topic or action-id. If there is only one
-        //match, we trigger that
-        var actions:Action[] = Room.current.findActions(words[0]);
-        //If there is only one associated action, fire it
-        if(actions.length == 1){
-           actions[0].run();
+        var actions: Action[][] = [];
+        for(var i = 0; i < words.length; i++){
+            actions.push(Room.current.findActions(words[i]));
+        }
+        //now intersect every array
+        var temp: Action[];
+        for(var i = 1; i < actions.length; i++){
+            //If we managed to narrow it down enough
+            if(actions[i - 1].length == 1){
+                actions[i - 1][0].run();
+                break;
+            }
+            //else filter it some more
+            temp = [];
+            //if this specific word had no matches, don't filter on it!
+            if(actions[i].length == 0){
+                //just forward the matches of the previous word, basically not filtering at all
+                actions[i] = actions[i - 1];
+            }else{
+                for(var j = 0; j < actions[i].length; j++){
+                    if(actions[i - 1].indexOf(actions[i][j]) != -1){
+                        temp.push(actions[i][j]);
+                    }
+                }
+                actions[i] = temp;
+            }
+        }
+        //run the final filtered action
+        //If after filter only one action is left, run it
+        if(actions[actions.length - 1].length == 1){
+            actions[actions.length - 1][0].run();
         }
     }
 }

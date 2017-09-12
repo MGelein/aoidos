@@ -7,6 +7,10 @@ var Obj = (function () {
     }
     Obj.prototype.findAction = function (act) {
         var actions = [];
+        if (this.id == act)
+            return this.actions;
+        if (this.alias.indexOf(act) != -1)
+            return this.actions;
         for (var i = 0; i < this.actions.length; i++) {
             if (this.actions[i].matches(act))
                 actions.push(this.actions[i]);

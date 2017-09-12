@@ -1,6 +1,6 @@
 {
     "name": "Load Game",
-    "alias": ["load", "loadgame", "load game"],
+    "alias": ["loadgame", "load game"],
     "actions":[
         {
             "id": "inspect",
