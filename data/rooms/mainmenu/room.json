@@ -1,0 +1,7 @@
+{
+    "name": "Main Menu",
+    "sound": [],
+    "objects": "newgame",
+    "inspect": "[mainmenu]",
+    "description": "[mainmenu]"
+}

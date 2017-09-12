@@ -26,11 +26,26 @@ class DataLoader{
     }
 
     /**
-     * Loads a menu with the provided data
-     * @param name the name of the menu (e.g. main, or settings)
-     * @param callback the function called on success. Only parameter is data loaded
+     * Loads a room from the rooms folder using the provided ID and appending a
+     * .JSON extension automatically. Once the load is complete calls the 
+     * @param id the id of the room we're loading (e.g. main.menu)
+     * @param room the empty room instance we want to populate with the loaded data
      */
-    loadMenu(name:string, callback:Function){
-        this.load('menu/' + name + '.json', callback);
+    loadRoomData(id:string, room:Room){
+        this.load('rooms/' + id + '/room.json', function(data){
+            room.parseData(data);
+        });
+    }
+
+    /**
+     * Loads an object from the rooms folder that is currently being used. Appends
+     * a .JSON extension automtically. 
+     * @param id the id of the object we're loading (e.g. door)
+     * @param obj the empty object we're going to be populating with data
+     */
+    loadObjectData(id:string, obj:Obj){
+        this.load(Room.current.getObjPath(id), function(data){
+            obj.parseData(data);
+        });
     }
 }

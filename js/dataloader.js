@@ -7,8 +7,15 @@ var DataLoader = (function () {
             callback(data);
         });
     };
-    DataLoader.prototype.loadMenu = function (name, callback) {
-        this.load('menu/' + name + '.json', callback);
+    DataLoader.prototype.loadRoomData = function (id, room) {
+        this.load('rooms/' + id + '/room.json', function (data) {
+            room.parseData(data);
+        });
+    };
+    DataLoader.prototype.loadObjectData = function (id, obj) {
+        this.load(Room.current.getObjPath(id), function (data) {
+            obj.parseData(data);
+        });
     };
     return DataLoader;
 }());

@@ -46,7 +46,7 @@ class Terminal{
      * @param s the output to display
      */
     print(s:string):void{   
-        //adds the provided string at the end of the currentLine
+         //adds the provided string at the end of the currentLine
         this.currentLine.append(s.replace(/[\r\n]/g,''));
         //Now set the cursor at the end of the text
         this.currentLine.append(this.userInput);
@@ -68,6 +68,10 @@ class Terminal{
      * @param s the multiline output to display
      */
     printlns(s:string){
+        //check if there is a line reference in the string (for example: [mainmenu])
+        s = s.replace(/\[(.+?)\]/g, function($0, $1):string {
+            return Room.current.lines.get($1);
+        });
         var lines:string[] = s.split('\n');
         for(var line of lines){
             this.println(line);
@@ -83,6 +87,8 @@ class Terminal{
         var command = this.userInput.text().trim();
         //now enter a new line
         this.newLine();
+        //Parse the command
+        Parser.parse(command);
 
         //Add it to the history if it is not identical to the last command
         if(this.history[0] !== command) this.history.splice(1, 0, command);

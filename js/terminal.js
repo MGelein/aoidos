@@ -18,6 +18,9 @@ var Terminal = (function () {
         this.newLine();
     };
     Terminal.prototype.printlns = function (s) {
+        s = s.replace(/\[(.+?)\]/g, function ($0, $1) {
+            return Room.current.lines.get($1);
+        });
         var lines = s.split('\n');
         for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
             var line = lines_1[_i];
@@ -27,6 +30,7 @@ var Terminal = (function () {
     Terminal.prototype.commandTyped = function () {
         var command = this.userInput.text().trim();
         this.newLine();
+        Parser.parse(command);
         if (this.history[0] !== command)
             this.history.splice(1, 0, command);
         if (this.history.length > 50)

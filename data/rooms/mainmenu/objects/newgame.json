@@ -1,0 +1,17 @@
+{
+    "name": "New Game",
+    "alias": ["new", "newgame", "new game"],
+    "actions":[
+        {
+            "id": "inspect",
+            "alias": ["inspect", "look"],
+            "cases":[
+                {
+                    "lines": "[inspect_newgame]",
+                    "conditions": [],
+                    "triggers": []
+                }
+            ]
+        }
+    ]
+}

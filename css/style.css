@@ -18,6 +18,10 @@ body{
     background-color: rgb(29, 29, 29);
 }
 
+i{
+    font-style: normal;
+}
+
 h1, h2, h3, h4, h5, h6{
     display: inline;
 }
@@ -30,11 +34,11 @@ div{
 [contenteditable]:focus {
     outline: 0px solid transparent;
 }
-/*
+
 ::selection{
     background: rgba(0, 0, 0, 0);
 }
-*
+
 /**
 CUSTOM CLASSES
 **/
@@ -64,7 +68,7 @@ CUSTOM CLASSES
     display: inline;
 }
 
-.topic{
+[topic-id], [object-id], [npc-id], [action-id]{
     color: rgb(255, 93, 102);
 }
 

@@ -1,6 +1,8 @@
 var aoidos;
 $(document).ready(function () {
+    $.ajaxSetup({ cache: false });
     aoidos = new Aoidos('Mees Gelein', '1.0.0');
+    aoidos.init();
 });
 var Aoidos = (function () {
     function Aoidos(author, version) {
@@ -8,12 +10,9 @@ var Aoidos = (function () {
         this.version = version;
         this.terminal = new Terminal();
         this.loader = new DataLoader("data/");
-        this.init();
     }
     Aoidos.prototype.init = function () {
-        this.loader.loadMenu('main', function (data) {
-            aoidos.terminal.printlns(data.text.join('\n'));
-        });
+        Room.load('mainmenu');
     };
     return Aoidos;
 }());

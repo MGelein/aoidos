@@ -1,0 +1,21 @@
+{
+    "mainmenu": [
+        "",
+        "The Missing <i class='orange'>Tiger</i> Of The Empress<h2>",
+        "",
+        "<h6 class='grey'>A Steampunk Detective</h6>",
+        "",
+        "Welcome to the main menu!",
+        "",
+        "1. <i object-id='newgame'>New</i> Game",
+        "2. <i object-id='loadgame'>Load</i> Game</i>",
+        "3. <i object-id='settings'>Settings</i>",
+        "",
+        "What do you want to do?",
+        "<h6 class='grey'>Highlighted words can be typed to perform commands</h6>"
+    ],
+
+    "inspect_newgame":[
+        "Hmmm... interesting... a new game..."
+    ]
+}

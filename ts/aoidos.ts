@@ -7,7 +7,12 @@ var aoidos:Aoidos;
  * ENTRY POINT
  */
 $(document).ready(function(){
+    //turn off ajax caching.
+    $.ajaxSetup({cache: false});
+    //Create the main game object
     aoidos = new Aoidos('Mees Gelein', '1.0.0');
+    //and run the init function
+    aoidos.init();
 });
 
 /**
@@ -33,15 +38,12 @@ class Aoidos{
         this.version = version;
         this.terminal = new Terminal();
         this.loader = new DataLoader("data/");
-        this.init();
     }
 
     /**
      * Initializes the first screen of the game, the main menu
      */
     init(){
-        this.loader.loadMenu('main', function(data){
-            aoidos.terminal.printlns(data.text.join('\n'));
-        });
+       Room.load('mainmenu');
     }
 }
