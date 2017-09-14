@@ -10,4 +10,12 @@ class Sound{
         $('#audioHolder').append('<audio id="clip" src="data/sound/' + url + '"></audio>');
         ($('#clip').get(0) as any).play();
     }
+
+    /**
+     * Static accessor method for the aoidos.sound object
+     * @param url the url of the sound file
+     */
+    public static play(url:string){
+        aoidos.sound.play(url);
+    }
 }

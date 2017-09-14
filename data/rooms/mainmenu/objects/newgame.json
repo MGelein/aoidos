@@ -15,7 +15,7 @@
         },
         {
             "id": "new.game",
-            "alias": ["new", "new game", "newgame", "nw game"],
+            "alias": ["new", "newgame"],
             "cases":[
                 {
                     "lines": ["Starting a new game..."],
