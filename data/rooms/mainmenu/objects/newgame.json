@@ -20,7 +20,7 @@
                 {
                     "lines": ["Starting a new game..."],
                     "conditions": [],
-                    "triggers": ["R(firstscene)"]
+                    "triggers": ["S(pickup.wav)"]
                 }   
             ]
         }

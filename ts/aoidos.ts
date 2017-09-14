@@ -28,6 +28,8 @@ class Aoidos{
     public terminal:Terminal;
     /**The loader we use to load assets from the server */
     public loader:DataLoader;
+    /**Used to access sound playing methods*/
+    public sound:Sound;
 
     /**
      * Creates a new instance of the main class. This is the effective entry point of the code.
@@ -38,6 +40,7 @@ class Aoidos{
         this.version = version;
         this.terminal = new Terminal();
         this.loader = new DataLoader("data/");
+        this.sound = new Sound();
     }
 
     /**

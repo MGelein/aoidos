@@ -10,6 +10,7 @@ var Aoidos = (function () {
         this.version = version;
         this.terminal = new Terminal();
         this.loader = new DataLoader("data/");
+        this.sound = new Sound();
     }
     Aoidos.prototype.init = function () {
         Room.load('mainmenu');

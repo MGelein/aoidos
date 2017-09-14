@@ -26,7 +26,11 @@ class Parser{
         
         var actions: Action[][] = [];
         for(var i = 0; i < words.length; i++){
-            actions.push(Room.current.findActions(words[i]));
+            var found:Action[] = Room.current.findActions(words[i]);
+            //Only add it to the action list if it was not a bad word
+            if(found.length > 0){
+                actions.push(found);
+            }
         }
         //now intersect every array
         var temp: Action[];
@@ -38,18 +42,12 @@ class Parser{
             }
             //else filter it some more
             temp = [];
-            //if this specific word had no matches, don't filter on it!
-            if(actions[i].length == 0){
-                //just forward the matches of the previous word, basically not filtering at all
-                actions[i] = actions[i - 1];
-            }else{
-                for(var j = 0; j < actions[i].length; j++){
-                    if(actions[i - 1].indexOf(actions[i][j]) != -1){
-                        temp.push(actions[i][j]);
-                    }
+            for(var j = 0; j < actions[i].length; j++){
+                if(actions[i - 1].indexOf(actions[i][j]) != -1){
+                    temp.push(actions[i][j]);
                 }
-                actions[i] = temp;
             }
+            actions[i] = temp;
         }
         //run the final filtered action
         //If after filter only one action is left, run it

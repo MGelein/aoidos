@@ -41,6 +41,7 @@ var Aoidos = (function () {
         this.version = version;
         this.terminal = new Terminal();
         this.loader = new DataLoader("data/");
+        this.sound = new Sound();
     }
     Aoidos.prototype.init = function () {
         Room.load('mainmenu');
@@ -177,7 +178,10 @@ var Aoidos = (function () {
         words = tWords;
         var actions = [];
         for (var i = 0; i < words.length; i++) {
-            actions.push(Room.current.findActions(words[i]));
+            var found = Room.current.findActions(words[i]);
+            if (found.length > 0) {
+                actions.push(found);
+            }
         }
         var temp;
         for (var i = 1; i < actions.length; i++) {
@@ -186,17 +190,12 @@ var Aoidos = (function () {
                 break;
             }
             temp = [];
-            if (actions[i].length == 0) {
-                actions[i] = actions[i - 1];
-            }
-            else {
-                for (var j = 0; j < actions[i].length; j++) {
-                    if (actions[i - 1].indexOf(actions[i][j]) != -1) {
-                        temp.push(actions[i][j]);
-                    }
+            for (var j = 0; j < actions[i].length; j++) {
+                if (actions[i - 1].indexOf(actions[i][j]) != -1) {
+                    temp.push(actions[i][j]);
                 }
-                actions[i] = temp;
             }
+            actions[i] = temp;
         }
         if (actions[actions.length - 1].length == 1) {
             actions[actions.length - 1][0].run();
@@ -295,6 +294,16 @@ var Aoidos = (function () {
     Room.loaded = [];
     return Room;
 }());
+;var Sound = (function () {
+    function Sound() {
+    }
+    Sound.prototype.play = function (url) {
+        $('#clip').remove();
+        $('#audioHolder').append('<audio id="clip" src="data/sound/' + url + '"></audio>');
+        $('#clip').get(0).play();
+    };
+    return Sound;
+}());
 ;var Terminal = (function () {
     function Terminal() {
         this.history = [""];
@@ -383,6 +392,20 @@ var Aoidos = (function () {
     }
     Trigger.prototype.trigger = function () {
         console.log("- Trigger: " + this.stringDesc);
+        var register = this.stringDesc.substr(0, 1);
+        var variables = this.stringDesc.substr(1).replace(/[()]/g, '');
+        switch (register) {
+            case 'S':
+                this.playSound(variables);
+                break;
+            default:
+                console.log("! - Unrecognized Trigger!");
+                break;
+        }
+    };
+    Trigger.prototype.playSound = function (variables) {
+        console.log("- - Playing sound: " + variables);
+        aoidos.sound.play(variables);
     };
     Trigger.parseList = function (data) {
         var triggers = [];

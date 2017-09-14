@@ -19,6 +19,30 @@ class Trigger{
      */
     trigger(){
         console.log("- Trigger: " + this.stringDesc);
+
+        //The first letter represents the registers
+        var register:string = this.stringDesc.substr(0, 1);
+        //the variables for this register
+        var variables:string = this.stringDesc.substr(1).replace(/[()]/g, '')
+
+        //switch based on the register
+        switch(register){
+            case 'S':
+                this.playSound(variables);
+                break;
+            default:
+                console.log("! - Unrecognized Trigger!");
+                break;
+        }
+    }
+
+    /**
+     * Plays the sound in between the brackets
+     * @param variables the stuff between the brackets
+     */
+    playSound(variables:string){
+        console.log("- - Playing sound: " + variables);
+        aoidos.sound.play(variables);
     }
 
     /**

@@ -14,7 +14,10 @@ var Parser = (function () {
         words = tWords;
         var actions = [];
         for (var i = 0; i < words.length; i++) {
-            actions.push(Room.current.findActions(words[i]));
+            var found = Room.current.findActions(words[i]);
+            if (found.length > 0) {
+                actions.push(found);
+            }
         }
         var temp;
         for (var i = 1; i < actions.length; i++) {
@@ -23,17 +26,12 @@ var Parser = (function () {
                 break;
             }
             temp = [];
-            if (actions[i].length == 0) {
-                actions[i] = actions[i - 1];
-            }
-            else {
-                for (var j = 0; j < actions[i].length; j++) {
-                    if (actions[i - 1].indexOf(actions[i][j]) != -1) {
-                        temp.push(actions[i][j]);
-                    }
+            for (var j = 0; j < actions[i].length; j++) {
+                if (actions[i - 1].indexOf(actions[i][j]) != -1) {
+                    temp.push(actions[i][j]);
                 }
-                actions[i] = temp;
             }
+            actions[i] = temp;
         }
         if (actions[actions.length - 1].length == 1) {
             actions[actions.length - 1][0].run();
