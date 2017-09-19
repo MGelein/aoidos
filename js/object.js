@@ -23,6 +23,8 @@ var Obj = (function () {
         this.actions = Action.parseList(data.actions);
     };
     Obj.load = function (s) {
+        if (s == undefined || s.length < 1)
+            return [];
         var objects = [];
         var objDefs = s.split(',');
         for (var i = 0; i < objDefs.length; i++) {

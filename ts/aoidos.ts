@@ -11,8 +11,14 @@ $(document).ready(function(){
     $.ajaxSetup({cache: false});
     //Create the main game object
     aoidos = new Aoidos('Mees Gelein', '1.0.0');
-    //and run the init function
-    aoidos.init();
+    
+    //Also load the custom function script
+    $.getScript('data/custom.js', function(){
+        console.log("Aoidos: Custom Functions loaded");
+        //and run the init function
+        aoidos.init();
+    });
+
 });
 
 /**
@@ -30,6 +36,10 @@ class Aoidos{
     public loader:DataLoader;
     /**Used to access sound playing methods*/
     public sound:Sound;
+    /**The variable register*/
+    public var:Var;
+    /**The quest stage register */
+    public quest:Var;
 
     /**
      * Creates a new instance of the main class. This is the effective entry point of the code.
@@ -41,12 +51,21 @@ class Aoidos{
         this.terminal = new Terminal();
         this.loader = new DataLoader("data/");
         this.sound = new Sound();
+        this.var = new Var();
+        this.quest = new Var();
+        console.log("Aoidos: Variable & Quest Registers loaded");
     }
 
     /**
      * Initializes the first screen of the game, the main menu
      */
     init(){
-       Room.load('mainmenu');
+        console.log("=====================================");
+        console.log("Initialized Aoidos v." + this.version);
+        console.log("All programming by " + this.author);
+        console.log("Ready to load first room")
+        console.log("=====================================");
+        //Load the first room
+        Room.load('mainmenu');
     }
 }

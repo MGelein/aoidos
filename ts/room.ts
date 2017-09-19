@@ -7,7 +7,7 @@ class Room{
     /**The name of this room. E.g. The bannered Mare */
     private name:string;
     /**The id of this room. This would be the filename */
-    private id:string;
+    public id:string;
     /**The urls of the sound files associated with this room */
     private soundUrls:string[];
     /**The description of this room. This is the shorter version of the inspect text*/
@@ -125,7 +125,7 @@ class Room{
      * Called to clean up before a new room is entered. Makes
      * sure no remains from other rooms are left.
      */
-    unload(){
+    private unload(){
         //clear screen before continuing into a new room
         aoidos.terminal.cls();
     }
@@ -173,6 +173,9 @@ class Room{
      * @param id    the id of the room to load
      */
     public static load(id:string){
+        console.log("--------------------");
+        console.log("Load Room: " + id);
+        console.log("--------------------");
         var index:number = Room.isLoaded(id);
         if(index != -1){
             Room.loaded[index].enter();

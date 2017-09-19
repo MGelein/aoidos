@@ -1,0 +1,28 @@
+{
+    "name": "Test Object",
+    "alias": ["object"],
+    "actions":[
+        {
+            "id": "inspect",
+            "alias": ["inspect", "look"],
+            "cases":[
+                {
+                    "lines": ["[inspect_object]"],
+                    "conditions": [],
+                    "triggers": []
+                }
+            ]
+        },
+        {
+            "id": "main.menu",
+            "alias": ["back", "leave"],
+            "cases":[
+                {
+                    "lines": ["Going back to main menu..."],
+                    "conditions": [],
+                    "triggers": ["R(mainmenu)"]
+                }   
+            ]
+        }
+    ]
+}

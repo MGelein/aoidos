@@ -14,10 +14,10 @@ var Case = (function () {
         return true;
     };
     Case.prototype.trigger = function () {
+        aoidos.terminal.printlns(this.lines[Math.floor(Math.random() * this.lines.length)]);
         for (var i = 0; i < this.triggers.length; i++) {
             this.triggers[i].trigger();
         }
-        aoidos.terminal.printlns(this.lines[Math.floor(Math.random() * this.lines.length)]);
     };
     Case.parseList = function (data) {
         var cases = [];

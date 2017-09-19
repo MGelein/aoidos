@@ -38,12 +38,12 @@ class Case{
      * triggers its triggers
      */
     trigger(){
+        //output one of the random lines (or the only one if there is only one)
+        aoidos.terminal.printlns(this.lines[Math.floor(Math.random()*this.lines.length)]);
         //trigger all triggers
         for(var i = 0; i < this.triggers.length; i++){
             this.triggers[i].trigger();
         }
-        //output one of the random lines (or the only one if there is only one)
-        aoidos.terminal.printlns(this.lines[Math.floor(Math.random()*this.lines.length)]);
     }
 
     /**

@@ -1,5 +1,7 @@
 class Sound{
-    constructor(){}
+    constructor(){
+        console.log("Aoidos: Sound module loaded");
+    }
 
     /**
      * Plays the sound file designated by the url

@@ -9,7 +9,7 @@
                 {
                     "lines": ["[inspect_newgame]"],
                     "conditions": [],
-                    "triggers": ["I(5, 100)", "R(mainmenu)"]
+                    "triggers": ["V(gold, +10)", "R(test)"]
                 }
             ]
         },
@@ -20,7 +20,7 @@
                 {
                     "lines": ["Starting a new game..."],
                     "conditions": [],
-                    "triggers": ["S(pickup.wav)"]
+                    "triggers": ["S(pickup.wav)", "Q(quest, 1)", "F(testFunction)"]
                 }   
             ]
         }

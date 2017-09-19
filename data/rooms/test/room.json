@@ -1,0 +1,7 @@
+{
+    "name": "Test Room",
+    "sound": [],
+    "objects": "testobject",
+    "inspect": "[testroom]",
+    "description": "[testroom]"
+}

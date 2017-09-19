@@ -1,0 +1,17 @@
+{
+    "name": "Dummy",
+    "alias": ["alias"],
+    "actions":[
+        {
+            "id": "inspect",
+            "alias": ["inspect", "look"],
+            "cases":[
+                {
+                    "lines": ["[inspect_object]"],
+                    "conditions": [],
+                    "triggers": []
+                }
+            ]
+        }
+    ]
+}

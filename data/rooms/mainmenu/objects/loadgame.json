@@ -8,7 +8,7 @@
             "cases":[
                 {
                     "lines": ["[inspect_loadgame]"],
-                    "conditions": [],
+                    "conditions": ["Q(quest, 1)"],
                     "triggers": ["I(5, 100)", "R(mainmenu)"]
                 }
             ]

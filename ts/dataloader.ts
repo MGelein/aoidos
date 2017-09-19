@@ -12,6 +12,7 @@ class DataLoader{
      */
     constructor(dataFolder){
         this.dataUrl = dataFolder;
+        console.log("Aoidos: Dataloader ready for requests");
     }
 
     /**
@@ -33,6 +34,7 @@ class DataLoader{
      */
     loadRoomData(id:string, room:Room){
         this.load('rooms/' + id + '/room.json', function(data){
+            Room.current = room;
             room.parseData(data);
         });
     }

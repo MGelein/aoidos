@@ -20,6 +20,7 @@ body{
 
 i{
     font-style: normal;
+    color: rgb(255, 93, 102);
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -66,10 +67,6 @@ CUSTOM CLASSES
     padding-left: 2px;
     padding-right: 2px;
     display: inline;
-}
-
-[topic-id], [object-id], [npc-id], [action-id]{
-    color: rgb(255, 93, 102);
 }
 
 /**

@@ -1,5 +1,6 @@
 var Sound = (function () {
     function Sound() {
+        console.log("Aoidos: Sound module loaded");
     }
     Sound.prototype.play = function (url) {
         $('#clip').remove();

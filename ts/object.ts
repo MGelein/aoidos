@@ -64,6 +64,7 @@ class Obj implements ActionSearchable{
      * @param s the list of objects to load for this room
      */
     public static load(s:string):Obj[]{
+        if(s == undefined || s.length < 1) return [];
         var objects:Obj[] = [];
         //split the def by comma
         var objDefs:string[] = s.split(',');

@@ -7,9 +7,9 @@
         "",
         "Welcome to the main menu!",
         "",
-        "1. <i object-id='newgame'>New</i> Game",
-        "2. <i object-id='loadgame'>Load</i> Game</i>",
-        "3. <i object-id='settings'>Settings</i>",
+        "1. <i>New</i> Game",
+        "2. <i>Load</i> Game</i>",
+        "3. <i>Settings</i>",
         "",
         "What do you want to do?",
         "<h6 class='grey'>Highlighted words can be typed to perform commands</h6>"

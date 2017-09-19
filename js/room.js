@@ -77,6 +77,9 @@ var Room = (function () {
         return -1;
     };
     Room.load = function (id) {
+        console.log("--------------------");
+        console.log("Load Room: " + id);
+        console.log("--------------------");
         var index = Room.isLoaded(id);
         if (index != -1) {
             Room.loaded[index].enter();

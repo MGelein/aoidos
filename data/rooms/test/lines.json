@@ -1,0 +1,10 @@
+{
+    "testroom": [
+        "You enter a new room with an <i>object</i>",
+        "However, you can also <i>leave</i>"
+    ],
+
+    "inspect_object":[
+        "This is just a normal object"
+    ]
+}

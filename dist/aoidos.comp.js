@@ -33,7 +33,10 @@ var Action = (function () {
 $(document).ready(function () {
     $.ajaxSetup({ cache: false });
     aoidos = new Aoidos('Mees Gelein', '1.0.0');
-    aoidos.init();
+    $.getScript('data/custom.js', function () {
+        console.log("Aoidos: Custom Functions loaded");
+        aoidos.init();
+    });
 });
 var Aoidos = (function () {
     function Aoidos(author, version) {
@@ -42,8 +45,16 @@ var Aoidos = (function () {
         this.terminal = new Terminal();
         this.loader = new DataLoader("data/");
         this.sound = new Sound();
+        this["var"] = new Var();
+        this.quest = new Var();
+        console.log("Aoidos: Variable & Quest Registers loaded");
     }
     Aoidos.prototype.init = function () {
+        console.log("=====================================");
+        console.log("Initialized Aoidos v." + this.version);
+        console.log("All programming by " + this.author);
+        console.log("Ready to load first room");
+        console.log("=====================================");
         Room.load('mainmenu');
     };
     return Aoidos;
@@ -64,10 +75,10 @@ var Aoidos = (function () {
         return true;
     };
     Case.prototype.trigger = function () {
+        aoidos.terminal.printlns(this.lines[Math.floor(Math.random() * this.lines.length)]);
         for (var i = 0; i < this.triggers.length; i++) {
             this.triggers[i].trigger();
         }
-        aoidos.terminal.printlns(this.lines[Math.floor(Math.random() * this.lines.length)]);
     };
     Case.parseList = function (data) {
         var cases = [];
@@ -83,7 +94,43 @@ var Aoidos = (function () {
         this.stringDesc = condition;
     }
     Condition.prototype.test = function () {
-        return true;
+        if (this.stringDesc == undefined || this.stringDesc.length < 1)
+            return true;
+        var firstLetter = this.stringDesc.substr(0, 1).toUpperCase();
+        var variables = this.stringDesc.substring(1).replace(/[()]/g, '');
+        switch (firstLetter) {
+            case 'Q':
+                return this.testQuest(variables.split(',')[0].trim(), variables.split(',')[1].trim());
+            case 'V':
+                return this.testVariable(variables.split(',')[0].trim(), variables.split(',')[1].trim());
+            case 'F':
+                return this.testFunction(variables);
+            case 'R':
+                return this.testRoom(variables);
+            default:
+                console.log("Did not recognize condition register '" + firstLetter + "'");
+                return false;
+        }
+    };
+    Condition.prototype.testRoom = function (name) {
+        return Room.current.id === name;
+    };
+    Condition.prototype.testFunction = function (name) {
+        return (aoidos_custom[name]() === true);
+    };
+    Condition.prototype.testQuest = function (name, stage) {
+        return aoidos.quest.equals(name, Number(stage));
+    };
+    Condition.prototype.testVariable = function (name, value) {
+        var opChar = value.substring(0, 1);
+        switch (opChar) {
+            case '>':
+                return aoidos["var"].greaterThan(name, Number(value.substring(1)));
+            case '<':
+                return aoidos["var"].smallerThan(name, Number(value.substring(1)));
+            default:
+                return aoidos["var"].equals(name, Number(value));
+        }
     };
     Condition.parseList = function (data) {
         var conditions = [];
@@ -97,6 +144,7 @@ var Aoidos = (function () {
 ;var DataLoader = (function () {
     function DataLoader(dataFolder) {
         this.dataUrl = dataFolder;
+        console.log("Aoidos: Dataloader ready for requests");
     }
     DataLoader.prototype.load = function (url, callback) {
         $.getJSON(this.dataUrl + url, function (data) {
@@ -105,6 +153,7 @@ var Aoidos = (function () {
     };
     DataLoader.prototype.loadRoomData = function (id, room) {
         this.load('rooms/' + id + '/room.json', function (data) {
+            Room.current = room;
             room.parseData(data);
         });
     };
@@ -149,6 +198,8 @@ var Aoidos = (function () {
         this.actions = Action.parseList(data.actions);
     };
     Obj.load = function (s) {
+        if (s == undefined || s.length < 1)
+            return [];
         var objects = [];
         var objDefs = s.split(',');
         for (var i = 0; i < objDefs.length; i++) {
@@ -283,6 +334,9 @@ var Aoidos = (function () {
         return -1;
     };
     Room.load = function (id) {
+        console.log("--------------------");
+        console.log("Load Room: " + id);
+        console.log("--------------------");
         var index = Room.isLoaded(id);
         if (index != -1) {
             Room.loaded[index].enter();
@@ -296,6 +350,7 @@ var Aoidos = (function () {
 }());
 ;var Sound = (function () {
     function Sound() {
+        console.log("Aoidos: Sound module loaded");
     }
     Sound.prototype.play = function (url) {
         $('#clip').remove();
@@ -313,6 +368,7 @@ var Aoidos = (function () {
         this.cmdPointer = 0;
         this.lineHolder = $('#lines');
         this.cls();
+        console.log("Aoidos: Prepared Terminal");
     }
     Terminal.prototype.cls = function (currentLine) {
         this.lineHolder.contents().remove();
@@ -328,7 +384,12 @@ var Aoidos = (function () {
     };
     Terminal.prototype.printlns = function (s) {
         s = s.replace(/\[(.+?)\]/g, function ($0, $1) {
-            return Room.current.lines.get($1);
+            if (Room.current.lines != undefined) {
+                return Room.current.lines.get($1);
+            }
+            else {
+                return "";
+            }
         });
         var lines = s.split('\n');
         for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
@@ -395,14 +456,52 @@ var Aoidos = (function () {
     }
     Trigger.prototype.trigger = function () {
         console.log("- Trigger: " + this.stringDesc);
-        var register = this.stringDesc.substr(0, 1);
+        var register = this.stringDesc.substr(0, 1).toUpperCase();
         var variables = this.stringDesc.substr(1).replace(/[()]/g, '');
         switch (register) {
             case 'S':
                 this.playSound(variables);
                 break;
+            case 'V':
+                this.changeVar(variables.split(',')[0].trim(), variables.split(',')[1].trim());
+                break;
+            case 'Q':
+                this.changeQuest(variables.split(',')[0].trim(), variables.split(',')[1].trim());
+                break;
+            case 'F':
+                this.executeFunction(variables);
+                break;
+            case 'R':
+                this.changeRoom(variables);
+                break;
             default:
                 console.log("! - Unrecognized Trigger!");
+                break;
+        }
+    };
+    Trigger.prototype.changeRoom = function (name) {
+        Room.load(name);
+    };
+    Trigger.prototype.executeFunction = function (name) {
+        console.log("- - Execute Function: " + name);
+        aoidos_custom[name]();
+    };
+    Trigger.prototype.changeQuest = function (name, stage) {
+        console.log("- - Change quest: " + name + " set to stage: " + stage);
+        aoidos.quest.set(name, Number(stage));
+    };
+    Trigger.prototype.changeVar = function (name, operation) {
+        console.log("- - Change var: " + name + " with op: " + operation);
+        var firstOpChar = operation.substr(0, 1);
+        switch (firstOpChar) {
+            case '+':
+                aoidos["var"].add(name, Number(operation.substring(1)));
+                break;
+            case '-':
+                aoidos["var"].subtract(name, Number(operation.substring(1)));
+                break;
+            default:
+                aoidos["var"].set(name, Number(operation));
                 break;
         }
     };
@@ -418,4 +517,58 @@ var Aoidos = (function () {
         return triggers;
     };
     return Trigger;
+}());
+;var Var = (function () {
+    function Var() {
+        this.vars = [new V()];
+    }
+    Var.prototype.get = function (name) {
+        var v = this.find(name);
+        if (v == undefined)
+            return 0;
+        else
+            return v.qty;
+    };
+    Var.prototype.set = function (name, qty) {
+        var v = this.find(name);
+        if (v != undefined)
+            v.qty = qty;
+        else
+            this.vars.push(new V(name, qty));
+    };
+    Var.prototype.add = function (name, qty) {
+        this.set(name, this.get(name) + qty);
+    };
+    Var.prototype.subtract = function (name, qty) {
+        this.set(name, this.get(name) - qty);
+    };
+    Var.prototype.equals = function (name, qty) {
+        return this.get(name) == qty;
+    };
+    Var.prototype.smallerThan = function (name, qty) {
+        return this.get(name) < qty;
+    };
+    Var.prototype.greaterThan = function (name, qty) {
+        return this.get(name) > qty;
+    };
+    Var.prototype.find = function (name) {
+        var max = this.vars.length;
+        for (var i = 0; i < max; i++) {
+            if (this.vars[i].name == name)
+                return this.vars[i];
+        }
+        return undefined;
+    };
+    return Var;
+}());
+var V = (function () {
+    function V(name, qty) {
+        if (name === void 0) { name = 'none'; }
+        if (qty === void 0) { qty = 0; }
+        this.name = '';
+        this.qty = 0;
+        this.name = name;
+        this.qty = qty;
+    }
+    return V;
 }());

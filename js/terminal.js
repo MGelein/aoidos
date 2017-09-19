@@ -4,6 +4,7 @@ var Terminal = (function () {
         this.cmdPointer = 0;
         this.lineHolder = $('#lines');
         this.cls();
+        console.log("Aoidos: Prepared Terminal");
     }
     Terminal.prototype.cls = function (currentLine) {
         this.lineHolder.contents().remove();
@@ -19,7 +20,12 @@ var Terminal = (function () {
     };
     Terminal.prototype.printlns = function (s) {
         s = s.replace(/\[(.+?)\]/g, function ($0, $1) {
-            return Room.current.lines.get($1);
+            if (Room.current.lines != undefined) {
+                return Room.current.lines.get($1);
+            }
+            else {
+                return "";
+            }
         });
         var lines = s.split('\n');
         for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {

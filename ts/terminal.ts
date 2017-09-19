@@ -24,6 +24,7 @@ class Terminal{
         this.lineHolder = $('#lines');
         //clear the screen
         this.cls();
+        console.log("Aoidos: Prepared Terminal");
     }
 
     /**
@@ -70,7 +71,11 @@ class Terminal{
     printlns(s:string){
         //check if there is a line reference in the string (for example: [mainmenu])
         s = s.replace(/\[(.+?)\]/g, function($0, $1):string {
-            return Room.current.lines.get($1);
+            if(Room.current.lines != undefined){
+                return Room.current.lines.get($1);
+            }else{
+                return "";
+            }
         });
         var lines:string[] = s.split('\n');
         for(var line of lines){
