@@ -1,0 +1,17 @@
+{
+    "name": "Tiger",
+    "alias": ["tiger", "tger"],
+    "actions":[
+        {
+            "id": "inspect",
+            "alias": ["inspect", "look"],
+            "cases":[
+                {
+                    "lines": ["Roar."],
+                    "conditions": [],
+                    "triggers": []
+                }
+            ]
+        }
+    ]
+}

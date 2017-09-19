@@ -12,10 +12,14 @@ body{
     font-size: 150%;
     margin: 0;
     padding: 0;
+    top: 0;
+    left: 0;
     width: 100vh;
     height: 100vh;
     overflow: hidden;
     background-color: rgb(29, 29, 29);
+    background-size: cover;
+    background-attachment: center center;  
 }
 
 i{
@@ -87,6 +91,18 @@ ID'S
     margin: 3vh 3vw 3vh 3vw;
     overflow-x: hidden;
     overflow-y: hidden;  
+}
+
+#bg{
+    position:absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-attachment: center center;
 }
 
 

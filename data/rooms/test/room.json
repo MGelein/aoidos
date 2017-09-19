@@ -3,5 +3,6 @@
     "sound": [],
     "objects": "testobject",
     "inspect": "[testroom]",
-    "description": "[testroom]"
+    "description": "[testroom]",
+    "background": "library.png"
 }

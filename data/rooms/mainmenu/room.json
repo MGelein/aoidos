@@ -1,7 +1,8 @@
 {
     "name": "Main Menu",
     "sound": [],
-    "objects": "newgame, loadgame",
+    "objects": "newgame, loadgame, tiger",
     "inspect": "[mainmenu]",
-    "description": "[mainmenu]"
+    "description": "[mainmenu]",
+    "background": "forest.png"
 }

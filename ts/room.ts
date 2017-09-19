@@ -6,6 +6,8 @@ class Room{
 
     /**The name of this room. E.g. The bannered Mare */
     private name:string;
+    /**The url of the file used for the background of this room */
+    private bgUrl:string;
     /**The id of this room. This would be the filename */
     public id:string;
     /**The urls of the sound files associated with this room */
@@ -20,6 +22,7 @@ class Room{
     public objects:Obj[];
     /**The object that holds the lines for this room */
     public lines:Lines;
+
 
     /**
      * Constructor instantiates an empty room. You can 
@@ -43,6 +46,20 @@ class Room{
         //unload the old room (get rid of its objects and context)
         Room.current.unload();
         Room.current = this;
+
+        //Now set the background for the room if it was set
+        if(this.bgUrl !== undefined && this.bgUrl.length > 1){
+            var url:string = 'url(data/img/' + this.bgUrl;
+            var old:string = $('#bg').css('background-image');
+            if(old == 'none') old = url;
+            $('body').css('background-image', old);
+            $('#bg').fadeOut(function(){
+                $('#bg').css('background-image', url);
+                $('#bg').fadeIn();
+            });
+        }
+
+        //Check if first visit
         if(this.firstVisit){
             this.printInspect();
             this.firstVisit = false;
@@ -87,6 +104,7 @@ class Room{
         this.description = data.description;
         this.inspectText = data.inspect;
         this.objects = Obj.load(data.objects);
+        this.bgUrl = data.background;
        
         //Make a self ref and load the lines for this room
         var self:Room = this;

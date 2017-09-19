@@ -10,6 +10,17 @@ var Room = (function () {
     Room.prototype.enter = function () {
         Room.current.unload();
         Room.current = this;
+        if (this.bgUrl !== undefined && this.bgUrl.length > 1) {
+            var url = 'url(data/img/' + this.bgUrl;
+            var old = $('#bg').css('background-image');
+            if (old == 'none')
+                old = url;
+            $('body').css('background-image', old);
+            $('#bg').fadeOut(function () {
+                $('#bg').css('background-image', url);
+                $('#bg').fadeIn();
+            });
+        }
         if (this.firstVisit) {
             this.printInspect();
             this.firstVisit = false;
@@ -40,6 +51,7 @@ var Room = (function () {
         this.description = data.description;
         this.inspectText = data.inspect;
         this.objects = Obj.load(data.objects);
+        this.bgUrl = data.background;
         var self = this;
         aoidos.loader.load('rooms/' + this.id + '/lines.json', function (data) {
             self.lines = new Lines(data);

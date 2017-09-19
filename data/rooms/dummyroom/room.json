@@ -3,5 +3,6 @@
     "sound": [],
     "objects": "dummy",
     "inspect": "[dummy_line]",
-    "description": "[dummy_line]"
+    "description": "[dummy_line]",
+    "background": ""
 }
